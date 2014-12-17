@@ -1,0 +1,74 @@
+<project name="UPnP demos" default="usage" basedir=".">
+
+    <!-- CONFIGURABLE STUFF HERE -->
+
+    <property name="upnp_lib" value="lib/clink132a.jar"/>
+    <property name="xerces_lib" value="lib/xercesImpl.jar"/>
+    <property name="xml_lib" value="lib/xml-apis.jar"/>
+
+    <!-- END CONFIGURABLE STUFF -->
+
+    <!-- Directories -->
+
+    <!-- Show the usage options to the user -->
+    <target name="usage">
+        <echo message="available targets are:"/>
+        <echo message=""/>
+        <echo message=" compile"/>
+        <echo message=" rundevice"/>
+        <echo message=" runclient"/>
+        <echo message=" clean"/>
+    </target>
+
+    <target name="all" depends="init,compile"/>
+
+    <!-- CLEAN -->
+    <target name="clean">
+        <!-- Delete our the ${build}, and ${deploy} directory trees -->
+        <delete dir="classes"/>
+
+        <!-- delete all ~ backup files -->
+        <delete>
+            <fileset dir="." defaultexcludes="false" includes="**/*~"/>
+        </delete>
+
+        <!-- delete all .bak backup files -->
+        <delete>
+            <fileset dir="." defaultexcludes="false" includes="**/*.bak"/>
+        </delete>
+    </target>
+
+
+    <target name="init">
+        <!-- Create the build directory structure used by compile N deploy -->
+    </target>
+
+    <target name="compile">
+        <mkdir dir="classes"/>
+        <javac destdir="classes" srcdir="src"
+               classpath="${upnp_lib}"
+               target="1.7" includeantruntime="false"/>
+    </target>
+
+    <target name="client" depends="compile">
+        <java
+                classpath="${upnp_lib}:${xerces_lib}:${xml_lib}:classes"
+                classname="controlPoint.Client"/>
+    </target>
+
+    <target name="runclient" depends="compile">
+        <exec executable="java" inputstring="hello">
+            <env key="CLASSPATH"
+                 path="${upnp_lib};${xerces_lib};${xml_lib};classes"/>
+            <arg line="controlPoint.Client"/>
+        </exec>
+    </target>
+
+    <target name="rundevice" depends="compile">
+        <exec executable="java">
+            <env key="CLASSPATH"
+                 path="${upnp_lib}:${xerces_lib}:${xml_lib}:classes"/>
+            <arg line="device.EchoDevice"/>
+        </exec>
+    </target>
+</project>

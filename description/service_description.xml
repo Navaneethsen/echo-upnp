@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<scpd xmlns="urn:schemas-upnp-org:service-1-0">
+    <specVersion>
+        <major>1</major>
+        <minor>0</minor>
+    </specVersion>
+    <actionList>
+        <action>
+            <name>Echo</name>
+            <argumentList>
+                <argument>
+                    <name>InText</name>
+                    <relatedStateVariable>Text</relatedStateVariable>
+                    <direction>in</direction>
+                </argument>
+                <argument>
+                    <name>ReturnText</name>
+                    <relatedStateVariable>Text</relatedStateVariable>
+                    <direction>out</direction>
+                </argument>
+            </argumentList>
+        </action>
+    </actionList>
+    <serviceStateTable>
+        <stateVariable sendEvents="no">
+            <name>Text</name>
+            <dataType>string</dataType>
+        </stateVariable>
+    </serviceStateTable>
+</scpd>
